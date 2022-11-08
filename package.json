@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "preload": "node db/preload-db",
     "pretty": "prettier --write .",
     "start": "node server.js"
   },

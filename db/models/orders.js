@@ -9,10 +9,6 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  delivery: {
-    type: Boolean,
-    required: true
-  },
   phone: {
     type: String,
     required: true
@@ -35,6 +31,14 @@ const orderSchema = new mongoose.Schema({
     required: true,
     enum: ["pending", "confirmed", "delivered", "cancelled"],
     default: "pending"
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   }
 });
 orderSchema.statics.calcTotal = (items) =>
