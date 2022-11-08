@@ -61,6 +61,7 @@ const preload = async () => {
   const createdMenuItems = await Promise.all(
     menuItems.map((item) => createMenuItem(item))
   );
+  // eslint-disable-next-line no-console
   console.log("createdMenuItems", createdMenuItems);
   // create some new orders
   const orders = [
@@ -176,7 +177,9 @@ const preload = async () => {
   const createdOrders = await Promise.all(
     orders.map((order) => createOrder(order))
   );
+  // eslint-disable-next-line no-console
   console.log("createdOrders", createdOrders);
+  process.exit(0);
 };
 
 preload();
