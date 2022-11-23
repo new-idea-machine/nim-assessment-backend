@@ -12,7 +12,11 @@ const getAll = async (req, res) => {
 const getOne = async (req, res) => {
   try {
     const order = await Order.getOne(req.params.id);
-    res.send(order);
+    if (order) {
+      res.send(order);
+    } else {
+      res.status(404).send("Order not found");
+    }
   } catch (error) {
     res.status(500).send(error);
   }

@@ -48,66 +48,38 @@ orderSchema.statics.calcTotal = (items) =>
 const Order = mongoose.model("Order", orderSchema);
 
 const getAll = async () => {
-  try {
-    const orders = await Order.find();
-    return orders;
-  } catch (error) {
-    return error;
-  }
+  const orders = await Order.find();
+  return orders;
 };
 
 const getOne = async (id) => {
-  try {
-    const order = await Order.findById(id);
-    return order;
-  } catch (error) {
-    return error;
-  }
+  const order = await Order.findById(id);
+  return order;
 };
 
 const create = async (body) => {
-  try {
-    const order = await Order.create(body);
-    return order;
-  } catch (error) {
-    return error;
-  }
+  const order = await Order.create(body);
+  return order;
 };
 
 const update = async (id, body) => {
-  try {
-    const order = await Order.findByIdAndUpdate(id, body, { new: true });
-    return order;
-  } catch (error) {
-    return error;
-  }
+  const order = await Order.findByIdAndUpdate(id, body, { new: true });
+  return order;
 };
 
 const remove = async (id) => {
-  try {
-    const order = await Order.findByIdAndDelete(id);
-    return order;
-  } catch (error) {
-    return error;
-  }
+  const order = await Order.findByIdAndDelete(id);
+  return order;
 };
 
 const getByCustomer = async (id) => {
-  try {
-    const orders = await Order.find({ "customer._id": id });
-    return orders;
-  } catch (error) {
-    return error;
-  }
+  const orders = await Order.find({ "customer._id": id });
+  return orders;
 };
 
 const getByStatus = async (status) => {
-  try {
-    const orders = await Order.find({ status });
-    return orders;
-  } catch (error) {
-    return error;
-  }
+  const orders = await Order.find({ status });
+  return orders;
 };
 
 module.exports = {
