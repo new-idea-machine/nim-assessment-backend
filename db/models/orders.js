@@ -48,12 +48,12 @@ orderSchema.statics.calcTotal = (items) =>
 const Order = mongoose.model("Order", orderSchema);
 
 const getAll = async () => {
-  const orders = await Order.find().populate("items.item");
+  const orders = await Order.find().populate("items");
   return orders;
 };
 
 const getOne = async (id) => {
-  const order = await Order.findById(id).populate("items.item");
+  const order = await Order.findById(id).populate("items");
   return order;
 };
 
@@ -73,14 +73,12 @@ const remove = async (id) => {
 };
 
 const getByCustomer = async (id) => {
-  const orders = await Order.find({ "customer._id": id }).populate(
-    "items.item"
-  );
+  const orders = await Order.find({ "customer._id": id }).populate("items");
   return orders;
 };
 
 const getByStatus = async (status) => {
-  const orders = await Order.find({ status }).populate("items.item");
+  const orders = await Order.find({ status }).populate("items");
   return orders;
 };
 
