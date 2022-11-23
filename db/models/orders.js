@@ -16,10 +16,10 @@ const orderSchema = new mongoose.Schema({
   items: [
     {
       item: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        type: mongoose.Schema.ObjectId,
         ref: "MenuItems"
       },
+
       quantity: {
         type: Number,
         required: true
@@ -48,12 +48,14 @@ orderSchema.statics.calcTotal = (items) =>
 const Order = mongoose.model("Order", orderSchema);
 
 const getAll = async () => {
-  const orders = await Order.find().populate("items");
+  // populate each item
+  const orders = await Order.find().populate("items.item").exec();
+
   return orders;
 };
 
 const getOne = async (id) => {
-  const order = await Order.findById(id).populate("items");
+  const order = await Order.findById(id).populate("items.item");
   return order;
 };
 
@@ -73,12 +75,14 @@ const remove = async (id) => {
 };
 
 const getByCustomer = async (id) => {
-  const orders = await Order.find({ "customer._id": id }).populate("items");
+  const orders = await Order.find({ "customer._id": id })
+    .populate("items.id")
+    .exec();
   return orders;
 };
 
 const getByStatus = async (status) => {
-  const orders = await Order.find({ status }).populate("items");
+  const orders = await Order.find({ status }).populate("items").exec();
   return orders;
 };
 
