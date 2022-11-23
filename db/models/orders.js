@@ -41,6 +41,9 @@ const orderSchema = new mongoose.Schema({
     default: Date.now
   }
 });
+orderSchema.set("toJSON", {
+  virtuals: true
+});
 orderSchema.statics.calcTotal = (items) =>
   items.reduce((total, item) => total + item.price * item.quantity, 0);
 
