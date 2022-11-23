@@ -15,7 +15,7 @@ const orderSchema = new mongoose.Schema({
   },
   items: [
     {
-      _id: {
+      item: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "MenuItems"
@@ -73,12 +73,12 @@ const remove = async (id) => {
 };
 
 const getByCustomer = async (id) => {
-  const orders = await Order.find({ "customer._id": id });
+  const orders = await Order.find({ "customer._id": id }).populate("items._id");
   return orders;
 };
 
 const getByStatus = async (status) => {
-  const orders = await Order.find({ status });
+  const orders = await Order.find({ status }).populate("items._id");
   return orders;
 };
 
