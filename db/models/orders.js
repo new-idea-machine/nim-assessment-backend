@@ -48,12 +48,12 @@ orderSchema.statics.calcTotal = (items) =>
 const Order = mongoose.model("Order", orderSchema);
 
 const getAll = async () => {
-  const orders = await Order.find();
+  const orders = await Order.find().populate("items._id");
   return orders;
 };
 
 const getOne = async (id) => {
-  const order = await Order.findById(id);
+  const order = await Order.findById(id).populate("items._id");
   return order;
 };
 
