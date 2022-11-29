@@ -52,7 +52,7 @@ const Order = mongoose.model("Order", orderSchema);
 
 const getAll = async () => {
   // populate each item
-  const orders = await Order.find().populate("items.item").exec();
+  const orders = await Order.find().populate("items.item");
 
   return orders;
 };
@@ -74,18 +74,11 @@ const update = async (id, body) => {
 
 const remove = async (id) => {
   const order = await Order.findByIdAndDelete(id);
-  return order;
-};
-
-const getByCustomer = async (id) => {
-  const orders = await Order.find({ "customer._id": id })
-    .populate("items.id")
-    .exec();
-  return orders;
+  return order.id;
 };
 
 const getByStatus = async (status) => {
-  const orders = await Order.find({ status }).populate("items").exec();
+  const orders = await Order.find({ status }).populate("items");
   return orders;
 };
 
@@ -95,6 +88,6 @@ module.exports = {
   create,
   update,
   remove,
-  getByCustomer,
-  getByStatus
+  getByStatus,
+  Order
 };

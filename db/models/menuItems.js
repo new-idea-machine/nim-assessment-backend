@@ -51,4 +51,4 @@ const create = async (body) => {
   }
 };
 
-module.exports = { getAll, getOne, create };
+module.exports = { getAll, getOne, create, MenuItems };
