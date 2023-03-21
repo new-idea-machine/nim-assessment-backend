@@ -1,4 +1,4 @@
-const mongoose = require("../db.js");
+import mongoose from "../db.js";
 
 const menuItemsSchema = new mongoose.Schema({
   name: {
@@ -22,9 +22,9 @@ menuItemsSchema.set("toJSON", {
   virtuals: true
 });
 // menu model
-const MenuItems = mongoose.model("MenuItems", menuItemsSchema);
+export const MenuItems = mongoose.model("MenuItems", menuItemsSchema);
 
-const getAll = async () => {
+export const getAll = async () => {
   try {
     const menuItems = await MenuItems.find();
     return menuItems;
@@ -33,7 +33,7 @@ const getAll = async () => {
   }
 };
 
-const getOne = async (id) => {
+export const getOne = async (id) => {
   try {
     const menuItem = await MenuItems.findById(id);
     return menuItem;
@@ -42,7 +42,7 @@ const getOne = async (id) => {
   }
 };
 
-const create = async (body) => {
+export const create = async (body) => {
   try {
     const menuItem = await MenuItems.create(body);
     return menuItem;
@@ -51,4 +51,4 @@ const create = async (body) => {
   }
 };
 
-module.exports = { getAll, getOne, create, MenuItems };
+// export default { getAll, getOne, create, MenuItems };

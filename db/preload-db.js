@@ -1,7 +1,8 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+import { create as createMenuItem } from "./models/menuItems.js";
+import { create as createOrder } from "./models/orders.js";
 
-const { create: createMenuItem } = require("./models/menuItems");
-const { create: createOrder } = require("./models/orders");
+dotenv.config();
 // create some new menu items
 const menuItems = [
   {

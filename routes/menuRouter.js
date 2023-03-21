@@ -1,5 +1,5 @@
-const { Router } = require("express");
-const menuController = require("../controllers/menuController");
+import { Router } from "express";
+import menuController from "../controllers/menuController.js";
 
 const menuRouter = Router();
 
@@ -7,4 +7,4 @@ menuRouter.get("/", menuController.getAll);
 menuRouter.get("/:id", menuController.getOne);
 menuRouter.post("/", menuController.create);
 
-module.exports = menuRouter;
+export default menuRouter;

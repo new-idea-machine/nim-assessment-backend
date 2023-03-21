@@ -1,4 +1,4 @@
-const mongoose = require("../db.js");
+import mongoose from "../db.js";
 
 const orderSchema = new mongoose.Schema({
   name: {
@@ -48,46 +48,45 @@ orderSchema.statics.calcTotal = (items) =>
   items.reduce((total, item) => total + item.price * item.quantity, 0);
 
 // order model
-const Order = mongoose.model("Order", orderSchema);
+export const Order = mongoose.model("Order", orderSchema);
 
-const getAll = async () => {
+export const getAll = async () => {
   // populate each item
   const orders = await Order.find().populate("items.item");
 
   return orders;
 };
 
-const getOne = async (id) => {
+export const getOne = async (id) => {
   const order = await Order.findById(id).populate("items.item");
   return order;
 };
 
-const create = async (body) => {
+export const create = async (body) => {
   const order = await Order.create(body);
   return order;
 };
 
-const update = async (id, body) => {
+export const update = async (id, body) => {
   const order = await Order.findByIdAndUpdate(id, body, { new: true });
   return order;
 };
 
-const remove = async (id) => {
+export const remove = async (id) => {
   const order = await Order.findByIdAndDelete(id);
   return order.id;
 };
 
-const getByStatus = async (status) => {
+export const getByStatus = async (status) => {
   const orders = await Order.find({ status }).populate("items");
   return orders;
 };
 
-module.exports = {
-  getAll,
-  getOne,
-  create,
-  update,
-  remove,
-  getByStatus,
-  Order
-};
+// export default {
+//   getAll,
+//   getOne,
+//   update,
+//   remove,
+//   getByStatus,
+//   Order
+// };

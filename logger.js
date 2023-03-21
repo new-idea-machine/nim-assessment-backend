@@ -1,4 +1,4 @@
-const createDebug = require("debug");
+import createDebug from "debug";
 
 const getLogger = (namespace) => {
   const log = createDebug(`${namespace}:log`);
@@ -11,4 +11,4 @@ const getLogger = (namespace) => {
 
   return { log, error, warn };
 };
-module.exports = getLogger;
+export default getLogger;
