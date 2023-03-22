@@ -3,7 +3,8 @@ import {
   getOne as _getOne,
   create as _create,
   update as _update,
-  remove as _remove
+  remove as _remove,
+  search as _search
 } from "../db/models/menuItems.js";
 
 const getAll = async (req, res) => {
@@ -50,4 +51,18 @@ const remove = async (req, res) => {
     res.status(500).send(error);
   }
 };
-export default { getAll, getOne, create, update, remove };
+
+const search = async (req, res) => {
+  try {
+    if (req.query.search === undefined) {
+      res.status(400).send("Search terms not provided");
+    }
+
+    const menu = await _search(req.query.search);
+    res.send(menu);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+export default { getAll, getOne, create, update, remove, search };

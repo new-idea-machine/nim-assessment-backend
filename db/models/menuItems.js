@@ -1,3 +1,4 @@
+import e from "express";
 import mongoose from "../db.js";
 
 const menuItemsSchema = new mongoose.Schema({
@@ -66,6 +67,21 @@ export const remove = async (id) => {
   try {
     const menuItem = await MenuItems.findByIdAndDelete(id);
     return menuItem;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Search endpoint,search query parameter return name and description contain the parameter.
+export const search = async (searchQuery) => {
+  try {
+    const menuItems = await MenuItems.find({
+      $or: [
+        { name: { $regex: searchQuery, $options: "i" } },
+        { description: { $regex: searchQuery, $options: "i" } }
+      ]
+    });
+    return menuItems;
   } catch (error) {
     return error;
   }
