@@ -7,5 +7,6 @@ menuRouter.get("/", menuController.getAll);
 menuRouter.get("/:id", menuController.getOne);
 menuRouter.post("/", menuController.create);
 menuRouter.patch("/:id", menuController.update);
+menuRouter.delete("/:id", menuController.remove);
 
 export default menuRouter;

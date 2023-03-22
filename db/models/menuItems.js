@@ -51,10 +51,20 @@ export const create = async (body) => {
   }
 };
 
-//put endpoint
+// put endpoint
 export const update = async (id, body) => {
   try {
     const menuItem = await MenuItems.findByIdAndUpdate(id, body, { new: true });
+    return menuItem;
+  } catch (error) {
+    return error;
+  }
+};
+
+// delete endpoint
+export const remove = async (id) => {
+  try {
+    const menuItem = await MenuItems.findByIdAndDelete(id);
     return menuItem;
   } catch (error) {
     return error;

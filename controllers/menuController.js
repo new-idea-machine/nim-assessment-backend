@@ -2,7 +2,8 @@ import {
   getAll as _getAll,
   getOne as _getOne,
   create as _create,
-  update as _update
+  update as _update,
+  remove as _remove
 } from "../db/models/menuItems.js";
 
 const getAll = async (req, res) => {
@@ -41,4 +42,12 @@ const update = async (req, res) => {
   }
 };
 
-export default { getAll, getOne, create, update };
+const remove = async (req, res) => {
+  try {
+    const menu = await _remove(req.params.id);
+    res.send(menu);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+export default { getAll, getOne, create, update, remove };
