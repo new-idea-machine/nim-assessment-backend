@@ -51,4 +51,14 @@ export const create = async (body) => {
   }
 };
 
+//put endpoint
+export const update = async (id, body) => {
+  try {
+    const menuItem = await MenuItems.findByIdAndUpdate(id, body, { new: true });
+    return menuItem;
+  } catch (error) {
+    return error;
+  }
+};
+
 // export default { getAll, getOne, create, MenuItems };
