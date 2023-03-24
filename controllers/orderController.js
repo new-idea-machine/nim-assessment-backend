@@ -1,18 +1,8 @@
-import {
-  getAll as _getAll,
-  getOne as _getOne,
-  update as _update,
-  remove as _remove,
-  create as _create,
-  totalPrice,
-  // totalPriceAllOrders,
-  // getByCustomer as _getByCustomer,
-  getByStatus as _getByStatus
-} from "../db/models/orders.js";
+const Order = require("../db/models/orders.js");
 
 const getAll = async (req, res) => {
   try {
-    const orders = await _getAll();
+    const orders = await Order.getAll();
     res.send(orders);
   } catch (error) {
     res.status(500).send(error);
@@ -21,7 +11,7 @@ const getAll = async (req, res) => {
 
 const getOne = async (req, res) => {
   try {
-    const order = await _getOne(req.params.id);
+    const order = await Order.getOne(req.params.id);
     if (order) {
       res.send(order);
     } else {
@@ -34,7 +24,7 @@ const getOne = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const order = await _create(req.body);
+    const order = await Order.create(req.body);
     res.send(order);
   } catch (error) {
     res.status(500).send(error);
@@ -43,7 +33,7 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const order = await _update(req.params.id, req.body);
+    const order = await Order.update(req.params.id, req.body);
     res.send(order);
   } catch (error) {
     res.status(500).send(error);
@@ -52,7 +42,7 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
   try {
-    const order = await _remove(req.params.id);
+    const order = await Order.remove(req.params.id);
     res.send(order);
   } catch (error) {
     res.status(500).send(error);
@@ -69,8 +59,9 @@ const remove = async (req, res) => {
 // };
 
 const getByStatus = async (req, res) => {
+  const { s } = req.params.status;
   try {
-    const orders = await _getByStatus(req.params.status);
+    const orders = await Order.getByStatus(s);
     res.send(orders);
   } catch (error) {
     res.status(500).send(error);
@@ -79,7 +70,7 @@ const getByStatus = async (req, res) => {
 
 const getOneTotal = async (req, res) => {
   try {
-    const total = await totalPrice(req.params.id);
+    const total = await Order.totalPrice(req.params.id);
     res.send(total);
   } catch (error) {
     res.status(500).send(error);
@@ -88,14 +79,28 @@ const getOneTotal = async (req, res) => {
 
 const getTotal = async (req, res) => {
   try {
-    const total = await totalPrice();
+    const total = await Order.totalPrice();
     res.status(200).json({ total });
   } catch (error) {
     res.status(500).send(error);
   }
 };
 
-export default {
+const getTotalbyDate = async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+    if (!startDate || !endDate) {
+      res.status(400).send("Please provide a start and end date");
+    } else {
+      const total = await Order.totalPriceByDate(startDate, endDate);
+      res.status(200).json({ total });
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = {
   getAll,
   getOne,
   create,
@@ -104,5 +109,6 @@ export default {
   // getByCustomer,
   getByStatus,
   getOneTotal,
-  getTotal
+  getTotal,
+  getTotalbyDate
 };
