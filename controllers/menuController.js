@@ -53,13 +53,10 @@ const remove = async (req, res) => {
 };
 
 const search = async (req, res) => {
+  const { q } = req.query;
   try {
-    if (req.query.search === undefined) {
-      res.status(400).send("Search terms not provided");
-    }
-
-    const menu = await _search(req.query.search);
-    res.send(menu);
+    const item = await _search(q);
+    res.send(item);
   } catch (error) {
     res.status(500).send(error);
   }

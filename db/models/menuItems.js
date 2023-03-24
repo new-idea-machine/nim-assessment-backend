@@ -1,4 +1,3 @@
-import e from "express";
 import mongoose from "../db.js";
 
 const menuItemsSchema = new mongoose.Schema({
@@ -73,18 +72,29 @@ export const remove = async (id) => {
 };
 
 // Search endpoint,search query parameter return name and description contain the parameter.
-export const search = async (searchQuery) => {
-  try {
-    const menuItems = await MenuItems.find({
-      $or: [
-        { name: { $regex: searchQuery, $options: "i" } },
-        { description: { $regex: searchQuery, $options: "i" } }
-      ]
-    });
-    return menuItems;
-  } catch (error) {
-    return error;
+export const search = async (query) => {
+  const regExpress = new RegExp(query, "ig");
+  console.log("regExpress", regExpress);
+  const menuItems = await MenuItems.find().where(
+    { description: regExpress } || { name: regExpress }
+  );
+  // console.log("menuItems", menuItems);
+  if (menuItems.length === 0) {
+    console.log("No results found");
+    throw new Error("No results found");
   }
+  return menuItems;
 };
+// export const search = async (searchQuery) => {
+//   const regRegex = new RegExp(searchQuery, "ig");
+//   const menuItems = await MenuItems.find({
+//     $or: [{ name: regRegex }, { description: regRegex }]
+//   });
+//   // return menuItems;
+//   if (menuItems.length === 0) {
+//     return "No results found";
+//   }
+//   return menuItems;
+// };
 
 // export default { getAll, getOne, create, MenuItems };
