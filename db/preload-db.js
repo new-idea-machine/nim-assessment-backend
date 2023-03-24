@@ -12,7 +12,7 @@ const menuItems = [
   },
   {
     name: "Pasta",
-    price: 8,
+    price: 7,
     description: "Spaghetti with tomato sauce and meatballs"
   },
   {

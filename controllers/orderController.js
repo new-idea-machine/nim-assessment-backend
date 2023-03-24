@@ -4,6 +4,8 @@ import {
   update as _update,
   remove as _remove,
   create as _create,
+  totalPrice,
+  // totalPriceAllOrders,
   // getByCustomer as _getByCustomer,
   getByStatus as _getByStatus
 } from "../db/models/orders.js";
@@ -75,6 +77,24 @@ const getByStatus = async (req, res) => {
   }
 };
 
+const getOneTotal = async (req, res) => {
+  try {
+    const total = await totalPrice(req.params.id);
+    res.send(total);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const getTotal = async (req, res) => {
+  try {
+    const total = await totalPrice();
+    res.status(200).json({ total });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 export default {
   getAll,
   getOne,
@@ -82,5 +102,7 @@ export default {
   update,
   remove,
   // getByCustomer,
-  getByStatus
+  getByStatus,
+  getOneTotal,
+  getTotal
 };
