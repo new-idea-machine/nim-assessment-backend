@@ -1,13 +1,13 @@
-import { Router } from "express";
-import menuController from "../controllers/menuController.js";
+const { Router } = require("express");
+const menuController = require("../controllers/menuController.js");
 
 const menuRouter = Router();
 
-menuRouter.get("/search", menuController.search);
 menuRouter.get("/", menuController.getAll);
-menuRouter.get("/:id", menuController.getOne);
 menuRouter.post("/", menuController.create);
+menuRouter.get("/search", menuController.search);
+menuRouter.get("/:id", menuController.getOne); // :id allows on the bottom ->GET
 menuRouter.patch("/:id", menuController.update);
 menuRouter.delete("/:id", menuController.remove);
 
-export default menuRouter;
+module.exports = menuRouter;

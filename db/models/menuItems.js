@@ -1,4 +1,4 @@
-import mongoose from "../db.js";
+const mongoose = require("../db.js");
 
 const menuItemsSchema = new mongoose.Schema({
   name: {
@@ -22,9 +22,9 @@ menuItemsSchema.set("toJSON", {
   virtuals: true
 });
 // menu model
-export const MenuItems = mongoose.model("MenuItems", menuItemsSchema);
+const MenuItems = mongoose.model("MenuItems", menuItemsSchema);
 
-export const getAll = async () => {
+const getAll = async () => {
   try {
     const menuItems = await MenuItems.find();
     return menuItems;
@@ -33,7 +33,7 @@ export const getAll = async () => {
   }
 };
 
-export const getOne = async (id) => {
+const getOne = async (id) => {
   try {
     const menuItem = await MenuItems.findById(id);
     return menuItem;
@@ -42,7 +42,7 @@ export const getOne = async (id) => {
   }
 };
 
-export const create = async (body) => {
+const create = async (body) => {
   try {
     const menuItem = await MenuItems.create(body);
     return menuItem;
@@ -52,7 +52,7 @@ export const create = async (body) => {
 };
 
 // put endpoint
-export const update = async (id, body) => {
+const update = async (id, body) => {
   try {
     const menuItem = await MenuItems.findByIdAndUpdate(id, body, { new: true });
     return menuItem;
@@ -62,7 +62,7 @@ export const update = async (id, body) => {
 };
 
 // delete endpoint
-export const remove = async (id) => {
+const remove = async (id) => {
   try {
     const menuItem = await MenuItems.findByIdAndDelete(id);
     return menuItem;
@@ -72,8 +72,8 @@ export const remove = async (id) => {
 };
 
 // Search endpoint,search query parameter return name and description contain the parameter.
-export const search = async (query) => {
-  const regExpress = new RegExp(query, "ig");
+const search = async (SearchQuery) => {
+  const regExpress = new RegExp(SearchQuery, "ig");
   console.log("regExpress", regExpress);
   const menuItems = await MenuItems.find().where(
     { description: regExpress } || { name: regExpress }
@@ -97,4 +97,4 @@ export const search = async (query) => {
 //   return menuItems;
 // };
 
-// export default { getAll, getOne, create, MenuItems };
+module.exports = { getAll, getOne, create, MenuItems, search, update, remove };
