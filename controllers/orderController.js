@@ -59,7 +59,7 @@ const remove = async (req, res) => {
 // };
 
 const getByStatus = async (req, res) => {
-  const { s } = req.params.status;
+  const { s } = req.query;
   try {
     const orders = await Order.getByStatus(s);
     res.send(orders);
