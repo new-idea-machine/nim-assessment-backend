@@ -1,10 +1,10 @@
-import { Router } from "express";
-import menuRouter from "./menuRouter.js";
-import orderRouter from "./orderRouter.js";
+const { Router } = require("express");
+const menuRouter = require("./menuRouter.js");
+const orderRouter = require("./orderRouter.js");
 
 const apiRouter = Router();
 
 apiRouter.use("/menu", menuRouter);
 apiRouter.use("/orders", orderRouter);
 
-export default apiRouter;
+module.exports = apiRouter;

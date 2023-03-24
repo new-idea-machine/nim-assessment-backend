@@ -1,8 +1,8 @@
-import dotenv from "dotenv";
-import { create as createMenuItem } from "./models/menuItems.js";
-import { create as createOrder } from "./models/orders.js";
+require("dotenv").config();
 
-dotenv.config();
+const { create: createMenuItem } = require("./models/menuItems");
+const { create: createOrder } = require("./models/orders");
+
 // create some new menu items
 const menuItems = [
   {
@@ -12,7 +12,7 @@ const menuItems = [
   },
   {
     name: "Pasta",
-    price: 7,
+    price: 8,
     description: "Spaghetti with tomato sauce and meatballs"
   },
   {
@@ -180,7 +180,11 @@ const preload = async () => {
   );
   // eslint-disable-next-line no-console
   console.log("createdOrders", createdOrders);
-  process.exit(0);
+  if (require.main === module) process.exit(0);
 };
-
-preload();
+// if this file is run directly, run the preload function
+if (require.main === module) {
+  preload();
+}
+// otherwise, export the preload function
+module.exports = preload;
