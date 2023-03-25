@@ -68,6 +68,20 @@ const getByStatus = async (req, res) => {
   }
 };
 
+const getByStatusByDate = async (req, res) => {
+  const { startDate, endDate, s } = req.query;
+  try {
+    if (!startDate || !endDate) {
+      res.status(400).send("Please provide a start and end date");
+    } else {
+      const orders = await Order.getByStatusByDate(startDate, endDate, s);
+      res.status(200).json({ orders });
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 const getOneTotal = async (req, res) => {
   try {
     const total = await Order.totalPrice(req.params.id);
@@ -87,8 +101,8 @@ const getTotal = async (req, res) => {
 };
 
 const getTotalbyDate = async (req, res) => {
+  const { startDate, endDate } = req.query;
   try {
-    const { startDate, endDate } = req.query;
     if (!startDate || !endDate) {
       res.status(400).send("Please provide a start and end date");
     } else {
@@ -110,5 +124,6 @@ module.exports = {
   getByStatus,
   getOneTotal,
   getTotal,
-  getTotalbyDate
+  getTotalbyDate,
+  getByStatusByDate
 };

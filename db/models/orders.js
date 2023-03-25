@@ -99,7 +99,7 @@ const totalPrice = async () => {
   console.log("total", total);
   return total;
 };
-
+// Total price by date
 const totalPriceByDate = async (startDate, endDate) => {
   const orders = await Order.find({ status: "delivered" })
     .populate("items.item")
@@ -119,19 +119,15 @@ const totalPriceByDate = async (startDate, endDate) => {
   return total;
 };
 
-// totalPrice by createdAt
-// const totalPriceByDate = async (startDate, endDate) => {
-//   const orders = await Order.find({ status: "delivered" }).where("createdAt").gte(startDate).lte(endDate).populate(items.item);
-
-//  const calculateOrderAmount = async (orderItems) => {
-//   const initialVal = 0;
-//   const itemsPrice = orderItems.reduce(
-//     (previousValue, currentValue) =>
-//       previousValue + currentValue.price * currentValue.quantity,
-//     initialVal
-//   );
-//   return itemsPrice;
-// };
+// getByStatus by date
+const getByStatusByDate = async (startDate, endDate, status) => {
+  const orders = await Order.find({ status })
+    .populate("items.item")
+    .where("createdAt")
+    .gte(startDate)
+    .lte(endDate);
+  return orders;
+};
 
 module.exports = {
   getAll,
@@ -142,5 +138,6 @@ module.exports = {
   Order,
   create,
   totalPrice,
-  totalPriceByDate
+  totalPriceByDate,
+  getByStatusByDate
 };
