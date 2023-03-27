@@ -28,7 +28,7 @@ describe("routes", () => {
       address: "123 test st",
       items: [
         {
-          menuItem: testMenuItemId,
+          item: testMenuItemId,
           quantity: 1
         }
       ]
@@ -39,14 +39,14 @@ describe("routes", () => {
     await Order.deleteMany({});
   });
 
-  describe("GET /api/order", () => {
+  describe.only("GET /api/orders", () => {
     it("should return an array of orders", async () => {
       const response = await request(server).get("/api/orders");
       expect(response.body).toBeInstanceOf(Array);
     });
   });
 
-  describe("GET /api/order/:id", () => {
+  describe("GET /api/orders/:id", () => {
     it("should return an order", async () => {
       const order = await Order.create(testOrder);
       const response = await request(server).get(`/api/orders/${order._id}`);
@@ -54,7 +54,7 @@ describe("routes", () => {
     });
   });
 
-  describe("POST /api/order", () => {
+  describe("POST /api/orders", () => {
     it("should create an order", async () => {
       const response = await request(server)
         .post("/api/orders")
@@ -63,7 +63,7 @@ describe("routes", () => {
     });
   });
 
-  describe("PUT /api/order/:id", () => {
+  describe("PUT /api/orders/:id", () => {
     it("should update an order and only change the fields that are passed", async () => {
       const order = await Order.create(testOrder);
       const response = await request(server)
@@ -74,7 +74,7 @@ describe("routes", () => {
     });
   });
 
-  describe("PUT /api/order/:id", () => {
+  describe("PUT /api/orders/:id", () => {
     it("should update the updatedAt field", async () => {
       const order = await Order.create(testOrder);
       const response = await request(server)
@@ -85,7 +85,7 @@ describe("routes", () => {
   });
 
   // total sales route
-  describe("GET /api/order/total-sales", () => {
+  describe("GET /api/orders/total-sales", () => {
     it("should return the total sales and have the correct total", async () => {
       await Order.create(testOrder);
       const response = await request(server).get("/api/orders/total-sales");
@@ -95,10 +95,12 @@ describe("routes", () => {
   });
 
   // order by status route
-  describe("GET /api/order/status/:status", () => {
+  describe("GET /api/orders/status?s=pending", () => {
     it("should return an array of orders with the correct status", async () => {
       await Order.create(testOrder);
-      const response = await request(server).get("/api/orders/status/pending");
+      const response = await request(server).get(
+        "/api/orders/status?s=pending"
+      );
       expect(response.body).toBeInstanceOf(Array);
       expect(response.body[0].status).toBe("pending");
     });

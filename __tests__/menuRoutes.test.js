@@ -69,7 +69,7 @@ describe("routes", () => {
       const response = await request(server).delete(
         `/api/menu/${menuItem._id}`
       );
-      expect(response.body).toBe(menuItem._id);
+      expect(response.body).toEqual(menuItem._id.toString());
     });
   });
 
