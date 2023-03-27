@@ -72,29 +72,30 @@ const remove = async (id) => {
 };
 
 // Search endpoint,search query parameter return name and description contain the parameter.
-const search = async (SearchQuery) => {
-  const regExpress = new RegExp(SearchQuery, "ig");
-  console.log("regExpress", regExpress);
-  const menuItems = await MenuItems.find().where(
-    { description: regExpress } || { name: regExpress }
-  );
-  // console.log("menuItems", menuItems);
-  if (menuItems.length === 0) {
-    console.log("No results found");
-    throw new Error("No results found");
-  }
-  return menuItems;
-};
-// export const search = async (searchQuery) => {
-//   const regRegex = new RegExp(searchQuery, "ig");
-//   const menuItems = await MenuItems.find({
-//     $or: [{ name: regRegex }, { description: regRegex }]
-//   });
-//   // return menuItems;
+// Maggie's method
+// const search = async (SearchQuery) => {
+//   const regExpress = new RegExp(SearchQuery, "ig");
+//   console.log("regExpress", regExpress);
+//   const menuItems = await MenuItems.find().where(
+//     { description: regExpress } || { name: regExpress }
+//   );
+//   // console.log("menuItems", menuItems);
 //   if (menuItems.length === 0) {
-//     return "No results found";
+//     console.log("No results found");
+//     throw new Error("No results found");
 //   }
 //   return menuItems;
 // };
+const search = async (searchQuery) => {
+  const regRegex = new RegExp(searchQuery, "ig");
+  const menuItems = await MenuItems.find({
+    $or: [{ name: regRegex }, { description: regRegex }]
+  });
+  // return menuItems;
+  if (menuItems.length === 0) {
+    return "No results found";
+  }
+  return menuItems;
+};
 
 module.exports = { getAll, getOne, create, MenuItems, search, update, remove };

@@ -69,12 +69,12 @@ const getByStatus = async (req, res) => {
 };
 
 const getByStatusByDate = async (req, res) => {
-  const { startDate, endDate, s } = req.query;
+  const { s, startDate, endDate } = req.query;
   try {
     if (!startDate || !endDate) {
       res.status(400).send("Please provide a start and end date");
     } else {
-      const orders = await Order.getByStatusByDate(startDate, endDate, s);
+      const orders = await Order.getByStatusByDate(s, startDate, endDate);
       res.status(200).json({ orders });
     }
   } catch (error) {
