@@ -57,8 +57,6 @@ const create = async (body) => {
   }
 };
 
-// Update with current date.
-
 const update = async (req) => {
   try {
     const id = req.params;
@@ -83,11 +81,11 @@ const deleteMenu = async (req) => {
 
 const searchMenu = async (req) => {
   try {
-    const query = req.query.q; // Access the query parameter 'q' from req.query
+    const query = req.query.q;
     const filter = {
       $or: [
-        { name: { $regex: query, $options: "i" } }, // Search by name (case-insensitive)
-        { description: { $regex: query, $options: "i" } } // Search by description (case-insensitive)
+        { name: { $regex: query, $options: "i" } },
+        { description: { $regex: query, $options: "i" } }
       ]
     };
     const menuItems = await MenuItems.find(filter);

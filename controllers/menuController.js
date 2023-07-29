@@ -54,7 +54,9 @@ const searchMenu = async (req, res) => {
     }
     return res
       .status(200)
-      .send("No match result, Please change your key word and search again");
+      .send(
+        "No match result, Please change your search key word and search again"
+      );
   } catch (error) {
     return res.status(500).send(error);
   }
