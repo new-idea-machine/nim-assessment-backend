@@ -29,7 +29,8 @@ const createMenu = async (req, res) => {
 
 const updateMenu = async (req, res) => {
   try {
-    const menu = await MenuItems.update(req, res);
+    const { id } = req.params;
+    const menu = await MenuItems.update(id, req.body);
     return res.send(menu);
   } catch (error) {
     return res.status(500).send(error);
@@ -38,9 +39,9 @@ const updateMenu = async (req, res) => {
 
 const deleteMenu = async (req, res) => {
   try {
-    const { name } = await MenuItems.getOne(req.params.id);
+    const { id } = req.params;
     await MenuItems.deleteMenu(req, res);
-    return res.status(200).send(`${name} is successfully deleted`);
+    return res.send(id);
   } catch (error) {
     return res.status(500).send(error);
   }
