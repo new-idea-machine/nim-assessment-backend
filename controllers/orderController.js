@@ -70,8 +70,8 @@ const getByStatus = async (req, res) => {
 
 const totalSales = async (req, res) => {
   try {
-    const salesTotal = await Order.totalSales();
-    res.send({ salesTotal });
+    const total = await Order.totalSales();
+    res.send({ total });
   } catch (error) {
     res.status(500).send(error);
   }
