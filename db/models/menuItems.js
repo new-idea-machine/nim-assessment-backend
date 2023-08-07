@@ -1,23 +1,26 @@
 const mongoose = require("../db.js");
 
-const menuItemsSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true
+const menuItemsSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    description: {
+      type: String,
+      required: true
+    },
+    imageUrl: {
+      type: String
+    }
   },
-  price: {
-    type: Number,
-    required: true
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  imageUrl: {
-    type: String
-  }
-});
+  { timestamps: true }
+);
 menuItemsSchema.set("toJSON", {
   virtuals: true
 });
@@ -51,4 +54,36 @@ const create = async (body) => {
   }
 };
 
-module.exports = { getAll, getOne, create, MenuItems };
+const updateItem = async (id, body) => {
+  const { name, price, description, imageUrl } = body;
+  const objectId = mongoose.Types.ObjectId(id);
+
+  try {
+    const existingItem = await getOne(objectId);
+
+    if (!existingItem) {
+      throw new Error("Item not found");
+    }
+
+    const updateInfo = {
+      name: name || existingItem.name,
+      price: price || existingItem.price,
+      description: description || existingItem.description,
+      imageUrl: imageUrl || existingItem.imageUrl
+    };
+
+    const updatedItem = await MenuItems.findByIdAndUpdate(
+      objectId,
+      updateInfo,
+      {
+        new: true
+      }
+    );
+
+    return updatedItem;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+module.exports = { getAll, getOne, create, updateItem, MenuItems };

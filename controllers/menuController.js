@@ -27,4 +27,15 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getOne, create };
+const updateItem = async (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
+  try {
+    const item = await MenuItems.updateItem(id, body);
+    res.send(item);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = { getAll, getOne, create, updateItem };
