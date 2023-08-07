@@ -48,4 +48,21 @@ const deleteItem = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getOne, create, updateItem, deleteItem };
+const fuzzySearch = async (req, res) => {
+  const { q } = req.query;
+  try {
+    const items = await MenuItems.fuzzySearch(q);
+    res.send(items);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = {
+  getAll,
+  getOne,
+  create,
+  updateItem,
+  deleteItem,
+  fuzzySearch
+};
