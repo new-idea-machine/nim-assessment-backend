@@ -59,8 +59,9 @@ const getByCustomer = async (req, res) => {
 };
 
 const getByStatus = async (req, res) => {
+  const { s } = req.query;
   try {
-    const orders = await Order.getByStatus(req.params.status);
+    const orders = await Order.getByStatus(s);
     res.send(orders);
   } catch (error) {
     res.status(500).send(error);
