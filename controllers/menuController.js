@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const MenuItems = require("../db/models/menuItems.js");
 
 const getAll = async (req, res) => {
@@ -36,4 +37,14 @@ const update = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getOne, create, update };
+const remove = async (req, res) => {
+  try {
+    const menuItem = await MenuItems.remove(req.params.id);
+    console.log("menuItem", menuItem);
+    res.send(menuItem);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = { getAll, getOne, create, update, remove };

@@ -16,6 +16,10 @@ const menuItemsSchema = new mongoose.Schema({
   },
   imageUrl: {
     type: String
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   }
 });
 menuItemsSchema.set("toJSON", {
@@ -56,4 +60,9 @@ const update = async (id, body) => {
   return menuItem;
 };
 
-module.exports = { getAll, getOne, create, MenuItems, update };
+const remove = async (id) => {
+  const menuItem = await MenuItems.findByIdAndDelete(id);
+  return menuItem.id;
+};
+
+module.exports = { getAll, getOne, create, MenuItems, update, remove };
