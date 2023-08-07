@@ -45,7 +45,7 @@ orderSchema.set("toJSON", {
   virtuals: true
 });
 orderSchema.statics.calcTotal = (items) =>
-  items.reduce((total, item) => total + item.price * item.quantity, 0);
+  items.reduce((total, item) => total + item.item.price * item.quantity, 0);
 
 // order model
 const Order = mongoose.model("Order", orderSchema);
@@ -82,6 +82,24 @@ const getByStatus = async (status) => {
   return orders;
 };
 
+const totalSales = async () => {
+  try {
+    const allOrders = await Order.find().populate("items.item");
+
+    let salesTotal = 0;
+    allOrders.forEach((order) => {
+      if (Array.isArray(order.items) && order.items.length > 0) {
+        const orderTotal = Order.calcTotal(order.items);
+        salesTotal += orderTotal;
+      }
+    });
+
+    return salesTotal;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 module.exports = {
   getAll,
   getOne,
@@ -89,5 +107,6 @@ module.exports = {
   update,
   remove,
   getByStatus,
+  totalSales,
   Order
 };
