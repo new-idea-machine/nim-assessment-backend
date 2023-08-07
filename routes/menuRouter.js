@@ -7,5 +7,6 @@ menuRouter.get("/", menuController.getAll);
 menuRouter.get("/:id", menuController.getOne);
 menuRouter.put("/:id", menuController.updateItem);
 menuRouter.post("/", menuController.create);
+menuRouter.delete("/:id", menuController.deleteItem);
 
 module.exports = menuRouter;

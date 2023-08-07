@@ -86,4 +86,14 @@ const updateItem = async (id, body) => {
   }
 };
 
-module.exports = { getAll, getOne, create, updateItem, MenuItems };
+const deleteItem = async (id) => {
+  const objectId = mongoose.Types.ObjectId(id);
+  try {
+    await MenuItems.findByIdAndDelete(objectId);
+    return objectId;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+module.exports = { getAll, getOne, create, updateItem, deleteItem, MenuItems };
