@@ -90,7 +90,7 @@ const deleteItem = async (id) => {
   const objectId = mongoose.Types.ObjectId(id);
   try {
     await MenuItems.findByIdAndDelete(objectId);
-    return objectId;
+    return id;
   } catch (error) {
     throw new Error(error);
   }
