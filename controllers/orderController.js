@@ -9,9 +9,9 @@ const getAll = async (req, res) => {
   }
 };
 
-const getOne = async (req, res) => {
+const getTotalSales = async (req, res) => {
   try {
-    const order = await Order.getOne(req.params.id);
+    const order = await Order.getTotalSales();
     if (order) {
       res.send(order);
     } else {
@@ -20,6 +20,22 @@ const getOne = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
+};
+
+const getOne = async (req, res) => {
+  const { id } = req.params;
+  if (id !== "total-sales") {
+    try {
+      const order = await Order.getOne(req.params.id);
+      if (order) {
+        res.send(order);
+      } else {
+        res.status(404).send("Order not found");
+      }
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  } else getTotalSales();
 };
 
 const create = async (req, res) => {
@@ -59,8 +75,9 @@ const getByCustomer = async (req, res) => {
 };
 
 const getByStatus = async (req, res) => {
+  const { s } = req.query;
   try {
-    const orders = await Order.getByStatus(req.params.status);
+    const orders = await Order.getByStatus(s);
     res.send(orders);
   } catch (error) {
     res.status(500).send(error);
@@ -74,5 +91,6 @@ module.exports = {
   update,
   remove,
   getByCustomer,
-  getByStatus
+  getByStatus,
+  getTotalSales
 };
