@@ -35,7 +35,7 @@ const getOne = async (req, res) => {
     } catch (error) {
       res.status(500).send(error);
     }
-  } else getTotalSales(req, res);
+  } else getTotalSales();
 };
 
 const create = async (req, res) => {
