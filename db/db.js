@@ -4,7 +4,7 @@ const getLogger = require("../logger");
 const logger = getLogger("db");
 
 const { MONGO_URI, DB_NAME } = process.env;
-const connectionString = MONGO_URI || "mongodb://localhost:27017/restaurant";
+const connectionString = MONGO_URI;
 mongoose
   .connect(`${connectionString}/${DB_NAME}?retryWrites=true&w=majority`)
   .then(() => {
