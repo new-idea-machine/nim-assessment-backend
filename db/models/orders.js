@@ -106,7 +106,7 @@ const sales = async () => {
     const result = { total: salesTotal };
     return result;
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    throw new Error("Internal server error");
   }
 };
 
