@@ -94,12 +94,14 @@ const getTotalSales = async () => {
     (sum, order) =>
       sum +
       order.items.reduce(
-        (total, orderItem) => total + orderItem.item.price * orderItem.quantity,
+        (total, orderItem) =>
+          total + orderItem.item.price * orderItem.quantity,
         0
       ),
     0
   );
-  return { total: totalSales };
+  const result = { total: totalSales };
+  return result;
 };
 
 module.exports = {
