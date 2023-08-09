@@ -16,7 +16,7 @@ const orderSchema = new mongoose.Schema({
   items: [
     {
       item: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "MenuItems"
       },
 
@@ -44,8 +44,20 @@ const orderSchema = new mongoose.Schema({
 orderSchema.set("toJSON", {
   virtuals: true
 });
-orderSchema.statics.calcTotal = (items) =>
-  items.reduce((total, item) => total + item.price * item.quantity, 0);
+const calcOrderTotal = (items) => {
+  const orderTotal = items.reduce((total, item) => {
+    if (
+      !item.item ||
+      typeof item.item.price !== "number" ||
+      typeof item.quantity !== "number"
+    ) {
+      return total;
+    }
+    return total + item.item.price * item.quantity;
+  }, 0);
+
+  return orderTotal;
+};
 
 // order model
 const Order = mongoose.model("Order", orderSchema);
@@ -82,6 +94,22 @@ const getByStatus = async (status) => {
   return orders;
 };
 
+const sales = async () => {
+  try {
+    const allOrders = await Order.find().populate("items.item");
+
+    let salesTotal = 0;
+    allOrders.forEach((order) => {
+      const orderTotal = calcOrderTotal(order.items);
+      salesTotal += orderTotal;
+    });
+    const result = { total: salesTotal };
+    return result;
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   getAll,
   getOne,
@@ -89,5 +117,6 @@ module.exports = {
   update,
   remove,
   getByStatus,
-  Order
+  Order,
+  sales
 };
