@@ -56,8 +56,8 @@ const create = async (body) => {
 
 const update = async (id, newData) => {
   try {
-    newData.updatedAt = Date();
-    await MenuItems.findByIdAndUpdate(id, newData);
+    // newData.updatedAt = Date();
+    await MenuItems.findByIdAndUpdate(id, { updatedAt: Date(), ...newData });
     const menuItem = await MenuItems.findById(id);
     return menuItem;
   } catch (error) {
