@@ -36,4 +36,13 @@ const update = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getOne, create, update };
+const deleteOne = async (req, res) => {
+  try {
+    const id = await MenuItems.deleteOne(req.params.id);
+    res.send(id);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = { getAll, getOne, create, update, deleteOne };
