@@ -45,4 +45,13 @@ const deleteItem = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getOne, create, update, deleteItem };
+const searchQuery = async (req, res) => {
+  try {
+    const menu = await MenuItems.searchQuery(req.query.q);
+    res.send(menu);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = { getAll, getOne, create, update, deleteItem, searchQuery };
