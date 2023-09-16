@@ -96,4 +96,12 @@ const searchQuery = async (query) => {
   }
 };
 
-module.exports = { getAll, getOne, create, MenuItems, update, deleteItem, searchQuery };
+module.exports = {
+  getAll,
+  getOne,
+  create,
+  MenuItems,
+  update,
+  deleteItem,
+  searchQuery
+};
