@@ -18,6 +18,15 @@ const getOne = async (req, res) => {
   }
 };
 
+const search = async (req, res) => {
+  try {
+    const menu = await MenuItems.search(req.query.q);
+    return menu;
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 const create = async (req, res) => {
   try {
     const menu = await MenuItems.create(req.body);
@@ -45,4 +54,4 @@ const deleteById = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getOne, create, update, deleteById };
+module.exports = { getAll, getOne, search, create, update, deleteById };

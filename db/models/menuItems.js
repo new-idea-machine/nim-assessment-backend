@@ -44,6 +44,17 @@ const getOne = async (id) => {
     return error;
   }
 };
+const search = async (searchTerm) => {
+  let filter = {};
+  filter = {
+    $or: [
+      { name: { $regex: searchTerm, $options: "i" } },
+      { description: { $regex: searchTerm, $options: "i" } }
+    ]
+  };
+  const menuItems = await MenuItems.find(filter);
+  return menuItems;
+};
 
 const create = async (body) => {
   try {
@@ -68,4 +79,12 @@ const deleteById = async (id) => {
   const deletedItem = await MenuItems.findByIdAndDelete(id);
   return deletedItem.id;
 };
-module.exports = { getAll, getOne, create, update, deleteById, MenuItems };
+module.exports = {
+  getAll,
+  getOne,
+  create,
+  update,
+  deleteById,
+  search,
+  MenuItems
+};
