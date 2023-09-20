@@ -1,3 +1,4 @@
+const MenuItems = require("../db/models/menuItems.js");
 const Order = require("../db/models/orders.js");
 
 const getAll = async (req, res) => {
@@ -67,6 +68,43 @@ const getByStatus = async (req, res) => {
   }
 };
 
+const calculateTotalSales = async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+    let totalSales = 0;
+
+    const orders = await Order.getOrders(startDate, endDate);
+    if (orders) {
+      const allItems = [];
+
+      orders.forEach((order) => {
+        allItems.push(...order.items);
+      });
+
+      const itemDetailsArray = await MenuItems.getAllByIds([
+        ...new Set(allItems.map((item) => item.item))
+      ]);
+
+      const itemDetailsMap = itemDetailsArray.reduce(
+        // Disabling eslint as we need to get items by _id
+        // eslint-disable-next-line no-underscore-dangle
+        (map, item) => map.set(item._id.toString(), item.price),
+        new Map()
+      );
+
+      totalSales += allItems.reduce(
+        (total, item) =>
+          total +
+          parseFloat(itemDetailsMap.get(item.item.toString())) * item.quantity,
+        0
+      );
+    }
+    res.json({ total: totalSales });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 module.exports = {
   getAll,
   getOne,
@@ -74,5 +112,6 @@ module.exports = {
   update,
   remove,
   getByCustomer,
-  getByStatus
+  getByStatus,
+  calculateTotalSales
 };

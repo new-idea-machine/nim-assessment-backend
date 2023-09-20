@@ -42,6 +42,15 @@ const getOne = async (id) => {
   }
 };
 
+const getAllByIds = async (itemIds) => {
+  try {
+    const items = await MenuItems.find({ _id: { $in: itemIds } });
+    return items;
+  } catch (error) {
+    throw new Error("Failed to fetch items");
+  }
+};
+
 const create = async (body) => {
   try {
     const menuItem = await MenuItems.create(body);
@@ -51,4 +60,4 @@ const create = async (body) => {
   }
 };
 
-module.exports = { getAll, getOne, create, MenuItems };
+module.exports = { getAll, getOne, create, getAllByIds, MenuItems };
