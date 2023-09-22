@@ -82,6 +82,25 @@ const getByStatus = async (status) => {
   return orders;
 };
 
+const getOrders = async (startDate, endDate, status) => {
+  const filter = {};
+  if (startDate) {
+    if (!endDate) {
+      filter.createdAt = { $gte: new Date(startDate), $lte: new Date() };
+    } else {
+      filter.createdAt = {
+        $gte: new Date(startDate),
+        $lte: new Date(new Date(endDate).setHours(23, 59, 59, 999))
+      };
+    }
+  }
+  if (status) {
+    filter.status = status;
+  }
+
+  return Order.find(filter);
+};
+
 module.exports = {
   getAll,
   getOne,
@@ -89,5 +108,6 @@ module.exports = {
   update,
   remove,
   getByStatus,
+  getOrders,
   Order
 };

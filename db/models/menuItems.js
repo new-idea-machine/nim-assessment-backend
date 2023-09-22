@@ -42,6 +42,38 @@ const getOne = async (id) => {
   }
 };
 
+const search = async (searchTerm) => {
+  let filter = {};
+  filter = {
+    $or: [
+      { name: { $regex: searchTerm, $options: "i" } },
+      { description: { $regex: searchTerm, $options: "i" } }
+    ]
+  };
+  const menuItems = await MenuItems.find(filter);
+  return menuItems;
+};
+const update = async (id, updatedFields) => {
+  const updateFiled = { ...updatedFields, updatedAt: new Date() };
+  const updatedMenuItem = await MenuItems.findByIdAndUpdate(
+    id,
+    { $set: updateFiled },
+    {
+      new: true
+    }
+  );
+  return updatedMenuItem;
+};
+
+const getAllByIds = async (itemIds) => {
+  try {
+    const items = await MenuItems.find({ _id: { $in: itemIds } });
+    return items;
+  } catch (error) {
+    throw new Error("Failed to fetch items");
+  }
+};
+
 const create = async (body) => {
   try {
     const menuItem = await MenuItems.create(body);
@@ -50,5 +82,18 @@ const create = async (body) => {
     return error;
   }
 };
+const deleteById = async (id) => {
+  const deletedItem = await MenuItems.findByIdAndDelete(id);
+  return deletedItem.id;
+};
 
-module.exports = { getAll, getOne, create, MenuItems };
+module.exports = {
+  getAll,
+  getOne,
+  create,
+  update,
+  deleteById,
+  getAllByIds,
+  search,
+  MenuItems
+};
