@@ -21,6 +21,12 @@ const menuItemsSchema = new mongoose.Schema({
 menuItemsSchema.set("toJSON", {
   virtuals: true
 });
+
+menuItemsSchema.pre("save", (next) => {
+  this.updatedAt = Date.now();
+  next();
+});
+
 // menu model
 const MenuItems = mongoose.model("MenuItems", menuItemsSchema);
 
@@ -42,6 +48,47 @@ const getOne = async (id) => {
   }
 };
 
+const search = async (searchInput) => {
+  try {
+    const regex = new RegExp(searchInput, "i");
+    const menu = await MenuItems.find({
+      $or: [{ name: regex }, { description: regex }]
+    });
+    return menu;
+  } catch (error) {
+    return error;
+  }
+};
+
+const updateOne = async (id, body) => {
+  try {
+    const { name, price, description, imageUrl } = body;
+    const menu = await MenuItems.findOneAndUpdate(
+      id,
+      {
+        name,
+        price,
+        description,
+        imageUrl
+      },
+      { new: true }
+    );
+
+    return menu;
+  } catch (error) {
+    return error;
+  }
+};
+
+const deleteOne = async (id) => {
+  try {
+    const menu = await MenuItems.findOneAndDelete({ _id: id });
+    return menu.id;
+  } catch (error) {
+    return error;
+  }
+};
+
 const create = async (body) => {
   try {
     const menuItem = await MenuItems.create(body);
@@ -51,4 +98,12 @@ const create = async (body) => {
   }
 };
 
-module.exports = { getAll, getOne, create, MenuItems };
+module.exports = {
+  getAll,
+  getOne,
+  search,
+  updateOne,
+  deleteOne,
+  create,
+  MenuItems
+};
