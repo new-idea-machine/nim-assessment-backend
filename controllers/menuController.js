@@ -9,6 +9,16 @@ const getAll = async (req, res) => {
   }
 };
 
+const search = async (req, res) => {
+  try {
+    const query = req.query.q;
+    const menuList = await MenuItems.search(query);
+    res.send(menuList);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 const getOne = async (req, res) => {
   try {
     const menu = await MenuItems.getOne(req.params.id);
@@ -38,11 +48,11 @@ const updateOne = async (req, res) => {
 
 const deleteOne = async (req, res) => {
   try {
-    const menu = await MenuItems.deleteOne(req.params.id);
-    res.send(menu);
+    const menuId = await MenuItems.deleteOne(req.params.id);
+    res.send(menuId);
   } catch (error) {
     res.status(500).send(error);
   }
 };
 
-module.exports = { getAll, getOne, create, updateOne, deleteOne };
+module.exports = { getAll, search, getOne, create, updateOne, deleteOne };

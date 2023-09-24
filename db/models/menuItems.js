@@ -33,6 +33,18 @@ const getAll = async () => {
   }
 };
 
+const search = async (query) => {
+  const queryRegex = new RegExp(query, "i");
+  try {
+    const menuItems = await MenuItems.find({
+      $or: [{ name: queryRegex }, { description: queryRegex }]
+    }).exec();
+    return menuItems;
+  } catch (error) {
+    return error;
+  }
+};
+
 const getOne = async (id) => {
   try {
     const menuItem = await MenuItems.findById(id);
@@ -53,7 +65,7 @@ const create = async (body) => {
 
 const updateOne = async (id, body) => {
   try {
-    let menuItem = await MenuItems.findByIdAndUpdate(id, body, { new: true });
+    const menuItem = await MenuItems.findByIdAndUpdate(id, body, { new: true });
     return menuItem;
   } catch (error) {
     return error;
@@ -69,4 +81,12 @@ const deleteOne = async (id) => {
   }
 };
 
-module.exports = { getAll, getOne, create, updateOne, deleteOne, MenuItems };
+module.exports = {
+  getAll,
+  search,
+  getOne,
+  create,
+  updateOne,
+  deleteOne,
+  MenuItems
+};
