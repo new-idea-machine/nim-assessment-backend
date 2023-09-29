@@ -18,6 +18,9 @@ const menuItemsSchema = new mongoose.Schema({
     type: String
   }
 });
+
+menuItemsSchema.index({ name: "text", description: "text" });
+
 menuItemsSchema.set("toJSON", {
   virtuals: true
 });
@@ -69,4 +72,13 @@ const deleteOne = async (id) => {
   }
 };
 
-module.exports = { getAll, getOne, create, updateOne, deleteOne, MenuItems };
+const search = async (query) => {
+  try {
+    const searchResults = await MenuItems.find({ $text: { $search: query } });
+    return searchResults;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { getAll, getOne, create, updateOne, deleteOne, search, MenuItems };
