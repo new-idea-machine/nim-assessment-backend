@@ -27,4 +27,18 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getOne, create };
+const updateOne = async (req, res) => {
+  const menuItemId = req.params.id;
+  const updateFields = req.body;
+  try {
+    const updatedMenuItem = await MenuItems.updateOne(menuItemId, updateFields);
+    if (!updatedMenuItem) {
+      return res.status(404).send("Menu item not found");
+    }
+    res.send(updatedMenuItem);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = { getAll, getOne, create, updateOne };
