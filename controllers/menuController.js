@@ -41,4 +41,17 @@ const updateOne = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getOne, create, updateOne };
+const deleteOne = async (req, res) => {
+  const menuItemId = req.params.id;
+  try {
+    const deletedMenuItem = await MenuItems.deleteOne(menuItemId);
+    if (!deletedMenuItem) {
+      return res.status(404).send("Menu item not found");
+    }
+    res.send(`Menu ID: ${deletedMenuItem._id} deleted!`);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = { getAll, getOne, create, updateOne, deleteOne };
