@@ -14,9 +14,11 @@ const orderSchema = new mongoose.Schema({
     required: true
   },
   items: [
-    {
+    { 
+      _id: false,
+
       item: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "MenuItems"
       },
 
@@ -53,7 +55,7 @@ const Order = mongoose.model("Order", orderSchema);
 const getAll = async () => {
   // populate each item
   const orders = await Order.find().populate("items.item");
-
+  console.log(orders)
   return orders;
 };
 
@@ -82,6 +84,20 @@ const getByStatus = async (status) => {
   return orders;
 };
 
+const getTotalSales = async () => {
+  const orders = await Order.find().populate('items.item');
+  const totalSales = orders.reduce((total, order) => {
+    // Calculate the total price for each order
+    const orderTotal = order.items.reduce((orderTotal, orderItem) => {
+      const itemPrice = orderItem.item.price // Access price from the populated item
+      itemTotal = itemPrice * orderItem.quantity; 
+      return orderTotal + itemTotal;
+    }, 0);
+    return total + orderTotal;
+  }, 0);
+  return totalSales;
+};
+
 module.exports = {
   getAll,
   getOne,
@@ -89,5 +105,6 @@ module.exports = {
   update,
   remove,
   getByStatus,
+  getTotalSales,
   Order
 };
