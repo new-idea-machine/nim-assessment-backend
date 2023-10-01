@@ -48,7 +48,7 @@ const deleteOne = async (req, res) => {
     if (!deletedMenuItem) {
       return res.status(404).send("Menu item not found");
     }
-    res.send(`Menu ID: ${deletedMenuItem._id} deleted!`);
+    res.send(menuItemId);
   } catch (error) {
     res.status(500).send(error);
   }

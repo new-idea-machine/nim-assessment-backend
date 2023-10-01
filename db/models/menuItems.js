@@ -16,7 +16,15 @@ const menuItemsSchema = new mongoose.Schema({
   },
   imageUrl: {
     type: String
-  }
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now, 
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now, 
+  },
 });
 
 menuItemsSchema.index({ name: "text", description: "text" });
@@ -57,6 +65,7 @@ const create = async (body) => {
 const updateOne = async (id, updateFields) => {
   try {
     const updatedMenuItem = await MenuItems.findByIdAndUpdate(id, updateFields, { new: true });
+    updateFields.updatedAt = new Date();
     return updatedMenuItem;
   } catch (error) {
     return error;
