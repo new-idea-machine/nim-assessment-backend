@@ -30,14 +30,18 @@ const create = async (req, res) => {
 const updateOne = async (req, res) => {
   const menuItemId = req.params.id;
   const updateFields = req.body;
+  const updatedAt = new Date();
   try {
-    const updatedMenuItem = await MenuItems.updateOne(menuItemId, updateFields);
+    const updatedMenuItem = await MenuItems.updateOne(
+      { _id: menuItemId }, // Query object
+      { ...updateFields, updatedAt } // Update object
+    );
     if (!updatedMenuItem) {
       return res.status(404).send("Menu item not found");
     }
-    res.send(updatedMenuItem);
+    return res.send(updatedMenuItem);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 };
 
@@ -46,7 +50,7 @@ const deleteOne = async (req, res) => {
   try {
     const deletedMenuItem = await MenuItems.deleteOne(menuItemId);
     if (!deletedMenuItem) {
-      return res.status(404).send("Menu item not found");
+      res.status(404).send("Menu item not found");
     }
     res.send(menuItemId);
   } catch (error) {

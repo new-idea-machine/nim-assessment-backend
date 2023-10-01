@@ -19,12 +19,12 @@ const menuItemsSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now, 
+    default: Date.now
   },
   updatedAt: {
     type: Date,
-    default: Date.now, 
-  },
+    default: Date.now
+  }
 });
 
 menuItemsSchema.index({ name: "text", description: "text" });
@@ -62,10 +62,13 @@ const create = async (body) => {
   }
 };
 
-const updateOne = async (id, updateFields) => {
+const updateOne = async (id, updateFields, updatedAt) => {
   try {
-    const updatedMenuItem = await MenuItems.findByIdAndUpdate(id, updateFields, { new: true });
-    updateFields.updatedAt = new Date();
+    const updatedMenuItem = await MenuItems.findByIdAndUpdate(
+      id,
+      { ...updateFields, updatedAt },
+      { new: true }
+    );
     return updatedMenuItem;
   } catch (error) {
     return error;
@@ -86,8 +89,16 @@ const search = async (query) => {
     const searchResults = await MenuItems.find({ $text: { $search: query } });
     return searchResults;
   } catch (error) {
-    throw error;
+    return error;
   }
 };
 
-module.exports = { getAll, getOne, create, updateOne, deleteOne, search, MenuItems };
+module.exports = {
+  getAll,
+  getOne,
+  create,
+  updateOne,
+  deleteOne,
+  search,
+  MenuItems
+};

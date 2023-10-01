@@ -72,11 +72,9 @@ const getTotalSales = async (req, res) => {
   const startDate = req.query.start;
   const endDate = req.query.end;
 
-  console.log(startDate, endDate)
-
   try {
     const totalSales = await Order.getTotalSales(startDate, endDate);
-    res.send({"total": totalSales});
+    res.send({ total: totalSales });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -84,7 +82,7 @@ const getTotalSales = async (req, res) => {
 
 const getOrdersByStatus = async (req, res) => {
   // Parse start and end dates from query parameters
-  const status = req.query.s
+  const status = req.query.s;
   const startDate = req.query.start;
   const endDate = req.query.end;
 

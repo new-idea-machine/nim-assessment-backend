@@ -14,7 +14,7 @@ const orderSchema = new mongoose.Schema({
     required: true
   },
   items: [
-    { 
+    {
       _id: false,
 
       item: {
@@ -55,7 +55,6 @@ const Order = mongoose.model("Order", orderSchema);
 const getAll = async () => {
   // populate each item
   const orders = await Order.find().populate("items.item");
-  console.log(orders)
   return orders;
 };
 
@@ -84,7 +83,6 @@ const getByStatus = async (status) => {
   return orders;
 };
 
-
 const getTotalSales = async (startDate, endDate) => {
   const filter = {};
 
@@ -92,17 +90,17 @@ const getTotalSales = async (startDate, endDate) => {
     // If both start and end dates are provided as query params, filter by date range
     filter.createdAt = {
       $gte: new Date(startDate),
-      $lte: new Date(endDate),
+      $lte: new Date(endDate)
     };
   }
 
-  const orders = await Order.find(filter).populate('items.item');
+  const orders = await Order.find(filter).populate("items.item");
   const totalSales = orders.reduce((total, order) => {
     // Calculate the total price for each order
-    const orderTotal = order.items.reduce((orderTotal, orderItem) => {
-      const itemPrice = orderItem.item.price // Access price from the populated item
-      itemTotal = itemPrice * orderItem.quantity; 
-      return orderTotal + itemTotal;
+    const orderTotal = order.items.reduce((currentOrderTotal, orderItem) => {
+      const itemPrice = orderItem.item.price; // Access price from the populated item
+      const itemTotal = itemPrice * orderItem.quantity;
+      return currentOrderTotal + itemTotal;
     }, 0);
     return total + orderTotal;
   }, 0);
@@ -115,7 +113,7 @@ const getOrdersByStatus = async (status, startDate, endDate) => {
   if (startDate && endDate) {
     filter.createdAt = {
       $gte: new Date(startDate),
-      $lte: new Date(endDate),
+      $lte: new Date(endDate)
     };
   }
 
