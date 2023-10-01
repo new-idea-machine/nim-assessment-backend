@@ -109,6 +109,20 @@ const getTotalSales = async (startDate, endDate) => {
   return totalSales;
 };
 
+const getOrdersByStatus = async (status, startDate, endDate) => {
+  const filter = { status };
+
+  if (startDate && endDate) {
+    filter.createdAt = {
+      $gte: new Date(startDate),
+      $lte: new Date(endDate),
+    };
+  }
+
+  const orders = await Order.find(filter).populate("items.item");
+  return orders;
+};
+
 module.exports = {
   getAll,
   getOne,
@@ -117,5 +131,6 @@ module.exports = {
   remove,
   getByStatus,
   getTotalSales,
+  getOrdersByStatus,
   Order
 };
