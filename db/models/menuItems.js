@@ -61,8 +61,36 @@ const update = async (id, body) => {
 };
 
 const remove = async (id) => {
-  const menu = await MenuItems.findByIdAndDelete(id);
-  return menu.id;
+  const menuItem = await MenuItems.findByIdAndDelete(id);
+  return menuItem.id;
 };
 
-module.exports = { getAll, getOne, create, update, remove, MenuItems };
+const getBySearch = async (search) => {
+  const menuItems = await MenuItems.find({
+    $or: [
+      {
+        name: {
+          $regex: search,
+          $options: "i"
+        }
+      },
+      {
+        description: {
+          $regex: search,
+          $options: "i"
+        }
+      }
+    ]
+  }).exec();
+  return menuItems;
+};
+
+module.exports = {
+  getAll,
+  getOne,
+  create,
+  update,
+  remove,
+  getBySearch,
+  MenuItems
+};
