@@ -34,7 +34,7 @@ const update = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
-}
+};
 
 const remove = async (req, res) => {
   try {
@@ -45,5 +45,13 @@ const remove = async (req, res) => {
   }
 };
 
+const search = async (req, res) => {
+  try {
+    const menu = await MenuItems.search(req.query.q);
+    res.send(menu);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
-module.exports = { getAll, getOne, create, update, remove };
+module.exports = { getAll, getOne, create, update, remove, search };
