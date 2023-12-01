@@ -1,5 +1,13 @@
 require("dotenv").config();
-const { getAll, getOne, create, MenuItems } = require("../db/models/menuItems");
+const {
+  getAll,
+  getOne,
+  create,
+  update,
+  deleteMenu,
+  search,
+  MenuItems
+} = require("../db/models/menuItems");
 const preload = require("../db/preload-db");
 const mongoose = require("../db/db");
 
