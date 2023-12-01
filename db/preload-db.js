@@ -55,6 +55,11 @@ const menuItems = [
     name: "Soda",
     price: 2,
     description: "A can of soda"
+  },
+  {
+    name: "Chicken",
+    price: 2,
+    description: "test description it has chicken"
   }
 ];
 
