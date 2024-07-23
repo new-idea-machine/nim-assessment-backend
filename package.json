@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
@@ -26,7 +26,6 @@
     "debug": "^4.3.4",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "firebase-admin": "^11.2.0",
     "mongoose": "^6.7.1",
     "prettier": "^2.7.1"
   }
