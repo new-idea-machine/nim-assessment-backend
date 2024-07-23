@@ -39,7 +39,7 @@ describe("routes", () => {
     await Order.deleteMany({});
   });
 
-  describe.only("GET /api/orders", () => {
+  describe("GET /api/orders", () => {
     it("should return an array of orders", async () => {
       const response = await request(server).get("/api/orders");
       expect(response.body).toBeInstanceOf(Array);
